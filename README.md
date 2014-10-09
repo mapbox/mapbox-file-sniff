@@ -10,7 +10,7 @@ filesniffer.sniff(filepath, function(err, type){
 });
 ```
 
-## Returns a `string` for the following possible filetypes:
+## Returns a `string` for the following filetypes:
 - zipped shapefile: `zip`
 - GPX: `gpx`
 - KML: `kml`
