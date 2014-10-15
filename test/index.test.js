@@ -1,5 +1,6 @@
 var tape = require('tape');
 var path = require('path');
+var fs = require('fs');
 var testData = path.dirname(require.resolve('mapnik-test-data'));
 var filesniffer = require('../index.js');
 
@@ -7,9 +8,19 @@ var filesniffer = require('../index.js');
  * Testing filesniffer.sniff
  */
 tape('[KML] Sniffing file: should return kml filetype', function(assert) {
-	var file = testData + '/data/kml/1week_earthquake.kml';
+	var filepath = testData + '/data/kml/1week_earthquake.kml';
     var expectedFiletype = 'kml';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -21,9 +32,19 @@ tape('[KML] Sniffing file: should return kml filetype', function(assert) {
     });
 });
 tape('[KML BOM] Sniffing file: should return kml filetype', function(assert) {
-	var file = path.resolve('./test/data/bom.kml');
+	var filepath = path.resolve('./test/data/bom.kml');
     var expectedFiletype = 'kml';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -35,9 +56,19 @@ tape('[KML BOM] Sniffing file: should return kml filetype', function(assert) {
     });
 });
 tape('[GeoJson] Sniffing file: should return geojson filetype', function(assert) {
-	var file = testData + '/data/geojson/DC_polygon.geo.json';
+	var filepath = testData + '/data/geojson/DC_polygon.geo.json';
     var expectedFiletype = 'geojson';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -49,9 +80,19 @@ tape('[GeoJson] Sniffing file: should return geojson filetype', function(assert)
     });
 });
 tape('[GPX] Sniffing file: should return gpx filetype', function(assert) {
-	var file = testData + '/data/gpx/fells_loop.gpx';
+	var filepath = testData + '/data/gpx/fells_loop.gpx';
     var expectedFiletype = 'gpx';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -63,9 +104,19 @@ tape('[GPX] Sniffing file: should return gpx filetype', function(assert) {
     });
 });
 tape('[ZIP] Sniffing file: should return shp filetype', function(assert) {
-	var file = testData + '/data/zip/us_states.zip';
+	var filepath = testData + '/data/zip/us_states.zip';
     var expectedFiletype = 'zip';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -77,9 +128,19 @@ tape('[ZIP] Sniffing file: should return shp filetype', function(assert) {
     });
 });
 tape('[TIF] Sniffing file: should return tif filetype', function(assert) {
-	var file = testData + '/data/geotiff/sample.tif';
+	var filepath = testData + '/data/geotiff/sample.tif';
     var expectedFiletype = 'tif';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -91,9 +152,19 @@ tape('[TIF] Sniffing file: should return tif filetype', function(assert) {
     });
 });
 tape('[mbtiles] Sniffing file: should return mbtiles filetype', function(assert) {
-    var file = path.resolve('./test/data/valid.mbtiles');
+    var filepath = path.resolve('./test/data/valid.mbtiles');
     var expectedFiletype = 'mbtiles';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -105,9 +176,19 @@ tape('[mbtiles] Sniffing file: should return mbtiles filetype', function(assert)
     });
 });
 tape('[tilejson Valid] Sniffing file: should return tilejson filetype', function(assert) {
-	var file = path.resolve('./test/data/valid.tilejson');
+	var filepath = path.resolve('./test/data/valid.tilejson');
     var expectedFiletype = 'tilejson';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
     	if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -119,8 +200,18 @@ tape('[tilejson Valid] Sniffing file: should return tilejson filetype', function
     });
 });
 tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
-	var file = path.resolve('./test/data/invalid.tilejson');
-    filesniffer.sniff(file, function(err) {
+	var filepath = path.resolve('./test/data/invalid.tilejson');
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
         assert.equal('EINVALID', err.code);
@@ -128,9 +219,19 @@ tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
     });
 });
 tape('[serialtiles] Sniffing file: should return serialtiles filetype', function(assert) {
-    var file = path.resolve('./test/data/valid-serialtiles.gz');
+    var filepath = path.resolve('./test/data/valid-serialtiles.gz');
     var expectedFiletype = 'serialtiles';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -142,9 +243,19 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype', function
     });
 });
 tape('[tm2z] Sniffing file: should return tm2z filetype', function(assert) {
-    var file = path.resolve('./test/data/valid.tm2z');
+    var filepath = path.resolve('./test/data/valid.tm2z');
     var expectedFiletype = 'tm2z';
-    filesniffer.sniff(file, function(err, filetype) {
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -156,8 +267,18 @@ tape('[tm2z] Sniffing file: should return tm2z filetype', function(assert) {
     });
 });
 tape('[tm2z Invalid malformed] Sniffing file: should return error', function(assert) {
-    var file = path.resolve('./test/data/invalid-malformed.tm2z');
-    filesniffer.sniff(file, function(err) {
+    var filepath = path.resolve('./test/data/invalid-malformed.tm2z');
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
         assert.equal('EINVALID', err.code);
@@ -165,10 +286,29 @@ tape('[tm2z Invalid malformed] Sniffing file: should return error', function(ass
     });
 });
 tape('[tm2z Invalid empty] Sniffing file: should return error', function(assert) {
-    var file = path.resolve('./test/data/invalid-empty.tm2z');
-    filesniffer.sniff(file, function(err) {
+    var filepath = path.resolve('./test/data/invalid-empty.tm2z');
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
+        assert.equal('EINVALID', err.code);
+        assert.end();
+    });
+});
+tape('[Not Buffer object] Passing in invalid parameter: should return error', function(assert) {
+    var invalidBuffer = 'invalid';
+    filesniffer.sniff(invalidBuffer, function(err) {
+        assert.ok(err instanceof Error);
+        assert.equal(err.message, 'Must pass in type Buffer object.');
         assert.equal('EINVALID', err.code);
         assert.end();
     });

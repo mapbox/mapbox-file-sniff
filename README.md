@@ -7,12 +7,13 @@ Version format follows [Semantic Version](http://semver.org/)
 
 # Example
 ```
-filesniffer.sniff(filepath, function(err, filetype){
+filesniffer.sniff(buffer, function(err, filetype){
 	if(err) console.log(err);
 	//returns filetype as a string value
 	else console.log(filetype);
 });
 ```
+- `buffer` type Buffer object of file contents of at least length 300
 
 ## Returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
