@@ -7,20 +7,22 @@ Version format follows [Semantic Version](http://semver.org/)
 
 # Example
 ```
-filesniffer.sniff(filepath, function(err, type){
+filesniffer.sniff(filepath, function(err, filetype){
 	if(err) console.log(err);
-	else console.log(type);
+	//returns filetype as a string value
+	else console.log(filetype);
 });
 ```
 
 ## Returns a `string` for the following filetypes:
-- zipped shapefile: `zip`
+- Zipped shapefile: `zip`
 - GPX: `gpx`
 - KML: `kml`
 - GeoJSON: `geojson`
 - GeoTIFF: `tif`
 - Mbtiles: `mbtiles`
 - TileJSON: `tilejson`
+- tm2z: `tm2z`
 
 
 ## Install
