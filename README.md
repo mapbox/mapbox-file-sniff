@@ -1,6 +1,9 @@
 # mapbox-file-sniff
 Node module that returns type of spatial file.
+
 Version format follows [Semantic Version](http://semver.org/)
+
+[![Build Status](https://travis-ci.org/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-file-sniff)
 
 # Example
 ```
