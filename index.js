@@ -3,16 +3,8 @@ var fs = require('fs');
 var invalid = require('./lib/invalid');
 module.exports.sniff = sniff;
 
-function sniff(filepath, callback) {
-    try {
-        fs.statSync(filepath);
-        var buffer = new Buffer(512);
-        var fd = fs.openSync(filepath, 'r');
-        fs.readSync(fd, buffer, 0, 512, 0);
-        fs.closeSync(fd);
-    } catch (err) {
-        return callback(err);
-    }
+function sniff(buffer, callback) {
+    if(Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
    
     var head = buffer.toString().substring(0,50);
     if (head.indexOf('SQLite format 3') === 0){
@@ -39,8 +31,7 @@ function sniff(filepath, callback) {
     }
     if (head.indexOf('\"tilejson\":') !== -1){
         return callback(null, 'tilejson');
-    }
-        
+    }    
     var output;
     try {
         output = pako.inflate(buffer, {to: 'string'});
