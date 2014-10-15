@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Detects type of spatial file",
   "main": "index.js",
+  "dependencies": {
+    "pako": "~0.2.5"
+  },
   "devDependencies": {
     "tape": "3.0.x",
     "coveralls": "~2.11.1",
