@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Detects type of spatial file",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mapbox/mapbox-file-sniff"
+  },
   "dependencies": {
     "pako": "~0.2.5"
   },
