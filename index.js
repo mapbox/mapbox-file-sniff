@@ -1,10 +1,10 @@
-var pako = require('pako');
+var zlib = require('zlib');
 var invalid = require('./lib/invalid');
 module.exports.sniff = sniff;
 
 function sniff(buffer, callback) {
     if(Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
-   
+
     var head = buffer.toString().substring(0,50);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
@@ -26,21 +26,19 @@ function sniff(buffer, callback) {
     }
     // take into account BOM char at index 0
     if (((head.indexOf('<?xml') === 1) || (head.indexOf('<?xml') === 0)) && (head.indexOf('<gpx') !== -1)){
-        return callback(null, 'gpx');    
+        return callback(null, 'gpx');
     }
     if (head.indexOf('\"tilejson\":') !== -1){
         return callback(null, 'tilejson');
-    }    
-    var output;
-    try {
-        output = pako.inflate(buffer, {to: 'string'});
-    } catch (err) {
-        return callback(invalid('Unknown filetype.'));
     }
-    //check for tm2z
-    if (output.slice(257, 262) === 'ustar') return callback(null, 'tm2z');
-    //check for serial tiles
-    head = output.slice(0,50);
-    if (head.indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
-    else return callback(invalid('Unknown filetype.'));
+
+    zlib.gunzip(buffer, function(err, output) {
+        if (err) return callback(invalid('Unknown filetype.'));
+        //check for tm2z
+        if (output.toString().slice(257, 262) === 'ustar') return callback(null, 'tm2z');
+        //check for serial tiles
+        head = output.slice(0,50);
+        if (head.toString().indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
+        else return callback(invalid('Unknown filetype.'));
+    });
 }

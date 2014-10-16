@@ -229,6 +229,7 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype', function
         fs.readSync(fd, buffer, 0, 512, 0);
         fs.closeSync(fd);
     } catch (err) {
+		console.log('hi');
         return assert.end(err);
     }
     filesniffer.sniff(buffer, function(err, filetype) {
