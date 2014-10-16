@@ -26,7 +26,7 @@ tape('[KML] Sniffing file: should return kml filetype', function(assert) {
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -50,7 +50,7 @@ tape('[KML BOM] Sniffing file: should return kml filetype', function(assert) {
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -74,7 +74,7 @@ tape('[GeoJson] Sniffing file: should return geojson filetype', function(assert)
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -98,7 +98,7 @@ tape('[GPX] Sniffing file: should return gpx filetype', function(assert) {
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -122,7 +122,7 @@ tape('[ZIP] Sniffing file: should return shp filetype', function(assert) {
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -146,7 +146,7 @@ tape('[TIF] Sniffing file: should return tif filetype', function(assert) {
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -170,7 +170,7 @@ tape('[mbtiles] Sniffing file: should return mbtiles filetype', function(assert)
         try {
             assert.equal(filetype, expectedFiletype);
         } catch (err) {
-            console.log(err);
+            return assert.end(err);
         }
         assert.end();
     });
@@ -194,7 +194,7 @@ tape('[tilejson Valid] Sniffing file: should return tilejson filetype', function
         try {
 	        assert.equal(filetype, expectedFiletype);
         } catch (err) {
-        	console.log(err);
+        	return assert.end(err);
         }
         assert.end();
     });
@@ -237,7 +237,7 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype', function
         try {
             assert.equal(filetype, expectedFiletype);
         } catch (err) {
-            console.log(err);
+            return assert.end(err);
         }
         assert.end();
     });
@@ -261,7 +261,7 @@ tape('[tm2z] Sniffing file: should return tm2z filetype', function(assert) {
         try {
             assert.equal(filetype, expectedFiletype);
         } catch (err) {
-            console.log(err);
+            return assert.end(err);
         }
         assert.end();
     });

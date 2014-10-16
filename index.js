@@ -1,5 +1,4 @@
 var pako = require('pako');
-var fs = require('fs');
 var invalid = require('./lib/invalid');
 module.exports.sniff = sniff;
 
@@ -10,7 +9,7 @@ function sniff(buffer, callback) {
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
     }
-    if ((head[0] + head[1]) === "PK"){
+    if ((head[0] + head[1]) === 'PK'){
         return callback(null, 'zip');
     }
     // check if geotiff
@@ -44,4 +43,4 @@ function sniff(buffer, callback) {
     head = output.slice(0,50);
     if (head.indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
     else return callback(invalid('Unknown filetype.'));
-};
+}
