@@ -1,5 +1,5 @@
 # mapbox-file-sniff
-Node module that returns type of spatial file.
+Node module that returns spatial filetype.
 
 Version format follows [Semantic Version](http://semver.org/)
 
@@ -13,7 +13,7 @@ filesniffer.sniff(buffer, function(err, filetype){
 	else console.log(filetype);
 });
 ```
-- `buffer` type Buffer object of file contents of at least length 300
+- `buffer`: Buffer object of file contents (at least length 300)
 
 ## Returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
@@ -23,6 +23,7 @@ filesniffer.sniff(buffer, function(err, filetype){
 - GeoTIFF: `tif`
 - Mbtiles: `mbtiles`
 - TileJSON: `tilejson`
+- Serialtiles: 'serialtiles'
 - tm2z: `tm2z`
 
 

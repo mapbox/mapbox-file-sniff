@@ -3,8 +3,8 @@ var invalid = require('./lib/invalid');
 module.exports.sniff = sniff;
 
 function sniff(buffer, callback) {
-    if(Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
-
+    if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
+    
     var head = buffer.toString().substring(0,50);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
