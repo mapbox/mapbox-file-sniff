@@ -5,17 +5,37 @@ Version format follows [Semantic Version](http://semver.org/)
 
 [![Build Status](https://travis-ci.org/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-file-sniff)
 
-# Example
+## Install
+With npm:
 ```
-filesniffer.sniff(buffer, function(err, filetype){
-	if(err) console.log(err);
-	//returns filetype as a string value
-	else console.log(filetype);
+npm install -g mapbox-file-sniff
+```
+
+## Example, in JavaScript
+```javascript
+var filesniffer = require('mapbox-file-sniff');
+var buffer = fs.readFileSync('path/to/data/file.geojson');
+
+filesniffer.filetype(buffer, function(err, filetype){
+	assert.equal(filetype, 'geojson');
+});
+
+filesniffer(buffer, function(err, protocol) {
+	assert.equal(protocol, 'omnivore:');
 });
 ```
+
+## Example, in bash
+```sh
+$ mapbox-file-type path/to/data/file.geojson
+# geojson
+$ mapbox-file-protocol path/to/data/file.geojson
+# omnivore:
+```
+
 - `buffer`: Buffer object of file contents (at least length 300)
 
-## Returns a `string` for the following filetypes:
+## `.filetype` returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
 - GPX: `gpx`
 - KML: `kml`
@@ -26,12 +46,12 @@ filesniffer.sniff(buffer, function(err, filetype){
 - Serialtiles: 'serialtiles'
 - tm2z: `tm2z`
 
-
-## Install
-With npm:
-```
-npm install mapbox-file-sniff
-```
+## `.protocol` returns a `string` for the following tilelive protocols:
+- `omnivore:` tilelive-omnivore (coming soon!)
+- `mbtiles:` [node-mbtiles](https://github.com/mapbox/node-mbtiles)
+- `tilejson:` [node-tilejson](https://github.com/mapbox/node-tilejson)
+- `serialtiles`: *special case*
+- `tm2z`: [tilelive-vector](https://github.com/mapbox/tilelive-vector)
 
 ## Tests
 `npm test`
