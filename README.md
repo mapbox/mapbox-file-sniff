@@ -35,7 +35,7 @@ $ mapbox-file-protocol path/to/data/file.geojson
 
 - `buffer`: Buffer object of file contents (at least length 300)
 
-## `.filetype` returns a `string` for the following filetypes:
+### `.filetype` returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
 - GPX: `gpx`
 - KML: `kml`
@@ -43,10 +43,10 @@ $ mapbox-file-protocol path/to/data/file.geojson
 - GeoTIFF: `tif`
 - Mbtiles: `mbtiles`
 - TileJSON: `tilejson`
-- Serialtiles: 'serialtiles'
+- Serialtiles: `serialtiles`
 - tm2z: `tm2z`
 
-## `.protocol` returns a `string` for the following tilelive protocols:
+### `.protocol` returns a `string` for the following tilelive protocols:
 - `omnivore:` tilelive-omnivore (coming soon!)
 - `mbtiles:` [node-mbtiles](https://github.com/mapbox/node-mbtiles)
 - `tilejson:` [node-tilejson](https://github.com/mapbox/node-tilejson)
