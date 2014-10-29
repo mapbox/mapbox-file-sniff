@@ -1,7 +1,7 @@
 var zlib = require('zlib');
 var invalid = require('./lib/invalid');
-module.exports.filetype = sniff;
-module.exports.protocol = waft;
+module.exports.sniff = sniff;
+module.exports.waft = waft;
 
 function sniff(buffer, callback) {
     if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));

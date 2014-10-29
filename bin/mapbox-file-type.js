@@ -11,7 +11,7 @@ fs.open(filepath, 'r', function(err, fd) {
     fs.read(fd, buf, 0, 512, 0, function(err, bytes, buffer) {
         if (bytes.length < 300)
           return console.error(new Error('File too small'));
-        filesniffer.filetype(buffer, function(err, type) {
+        filesniffer.sniff(buffer, function(err, type) {
             if (err) return console.error(err);
             console.log(type);
         });

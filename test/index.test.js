@@ -20,7 +20,7 @@ tape('[KML] Sniffing file: should return kml filetype and omnivore protocol', fu
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -28,7 +28,7 @@ tape('[KML] Sniffing file: should return kml filetype and omnivore protocol', fu
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -49,7 +49,7 @@ tape('[KML BOM] Sniffing file: should return kml filetype and omnivore protocol'
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -57,7 +57,7 @@ tape('[KML BOM] Sniffing file: should return kml filetype and omnivore protocol'
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -77,7 +77,7 @@ tape('[GeoJson] Sniffing file: should return geojson filetype and omnivore proto
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -85,7 +85,7 @@ tape('[GeoJson] Sniffing file: should return geojson filetype and omnivore proto
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -105,7 +105,7 @@ tape('[GPX] Sniffing file: should return gpx filetype and omnivore protocol', fu
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -113,7 +113,7 @@ tape('[GPX] Sniffing file: should return gpx filetype and omnivore protocol', fu
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -133,7 +133,7 @@ tape('[ZIP] Sniffing file: should return shp filetype and omnivore protocol', fu
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -141,7 +141,7 @@ tape('[ZIP] Sniffing file: should return shp filetype and omnivore protocol', fu
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -161,7 +161,7 @@ tape('[TIF] Sniffing file: should return tif filetype and omnivore protocol', fu
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -169,7 +169,7 @@ tape('[TIF] Sniffing file: should return tif filetype and omnivore protocol', fu
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'omnivore:');
 						assert.end();
@@ -189,7 +189,7 @@ tape('[mbtiles] Sniffing file: should return mbtiles filetype and mbtiles protoc
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -197,7 +197,7 @@ tape('[mbtiles] Sniffing file: should return mbtiles filetype and mbtiles protoc
         } catch (err) {
             return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'mbtiles:');
 						assert.end();
@@ -217,7 +217,7 @@ tape('[tilejson Valid] Sniffing file: should return tilejson filetype and tilejs
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
     		if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -225,7 +225,7 @@ tape('[tilejson Valid] Sniffing file: should return tilejson filetype and tilejs
         } catch (err) {
         	return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'tilejson:');
 						assert.end();
@@ -244,11 +244,11 @@ tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err) {
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
         assert.equal('EINVALID', err.code);
-        filesniffer.protocol(buffer, function(err) {
+        filesniffer.waft(buffer, function(err) {
 						assert.ok(err instanceof Error);
 						assert.equal(err.message, 'Unknown filetype.');
 						assert.equal('EINVALID', err.code);
@@ -270,7 +270,7 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype and serial
 		console.log('hi');
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -278,7 +278,7 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype and serial
         } catch (err) {
             return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'serialtiles:');
 						assert.end();
@@ -298,7 +298,7 @@ tape('[tm2z] Sniffing file: should return tm2z filetype and tm2z protocol', func
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err, filetype) {
+    filesniffer.sniff(buffer, function(err, filetype) {
         if (err) return assert.end(err);
         assert.ok(err === null);
         try {
@@ -306,7 +306,7 @@ tape('[tm2z] Sniffing file: should return tm2z filetype and tm2z protocol', func
         } catch (err) {
             return assert.end(err);
         }
-        filesniffer.protocol(buffer, function(err, protocol) {
+        filesniffer.waft(buffer, function(err, protocol) {
 						assert.ifError(err);
 						assert.equal(protocol, 'tm2z:');
 						assert.end();
@@ -325,11 +325,11 @@ tape('[tm2z Invalid malformed] Sniffing file: should return error', function(ass
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err) {
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
         assert.equal('EINVALID', err.code);
-        filesniffer.protocol(buffer, function(err) {
+        filesniffer.waft(buffer, function(err) {
 						assert.ok(err instanceof Error);
 						assert.equal(err.message, 'Unknown filetype.');
 						assert.equal('EINVALID', err.code);
@@ -349,11 +349,11 @@ tape('[tm2z Invalid empty] Sniffing file: should return error', function(assert)
     } catch (err) {
         return assert.end(err);
     }
-    filesniffer.filetype(buffer, function(err) {
+    filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Unknown filetype.');
         assert.equal('EINVALID', err.code);
-        filesniffer.protocol(buffer, function(err) {
+        filesniffer.waft(buffer, function(err) {
 						assert.ok(err instanceof Error);
 						assert.equal(err.message, 'Unknown filetype.');
 						assert.equal('EINVALID', err.code);
@@ -363,11 +363,11 @@ tape('[tm2z Invalid empty] Sniffing file: should return error', function(assert)
 });
 tape('[Not Buffer object] Passing in invalid parameter: should return error', function(assert) {
     var invalidBuffer = 'invalid';
-    filesniffer.filetype(invalidBuffer, function(err) {
+    filesniffer.sniff(invalidBuffer, function(err) {
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Must pass in type Buffer object.');
         assert.equal('EINVALID', err.code);
-        filesniffer.protocol(invalidBuffer, function(err) {
+        filesniffer.waft(invalidBuffer, function(err) {
 						assert.ok(err instanceof Error);
 						assert.equal(err.message, 'Must pass in type Buffer object.');
 						assert.equal('EINVALID', err.code);

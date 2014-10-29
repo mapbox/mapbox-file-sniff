@@ -16,11 +16,11 @@ npm install -g mapbox-file-sniff
 var filesniffer = require('mapbox-file-sniff');
 var buffer = fs.readFileSync('path/to/data/file.geojson');
 
-filesniffer.filetype(buffer, function(err, filetype){
+filesniffer.sniff(buffer, function(err, filetype){
 	assert.equal(filetype, 'geojson');
 });
 
-filesniffer(buffer, function(err, protocol) {
+filesniffer.waft(buffer, function(err, protocol) {
 	assert.equal(protocol, 'omnivore:');
 });
 ```
@@ -35,7 +35,7 @@ $ mapbox-file-protocol path/to/data/file.geojson
 
 - `buffer`: Buffer object of file contents (at least length 300)
 
-### `.filetype` returns a `string` for the following filetypes:
+### `.sniff` returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
 - GPX: `gpx`
 - KML: `kml`
@@ -46,8 +46,8 @@ $ mapbox-file-protocol path/to/data/file.geojson
 - Serialtiles: `serialtiles`
 - tm2z: `tm2z`
 
-### `.protocol` returns a `string` for the following tilelive protocols:
-- `omnivore:` tilelive-omnivore (coming soon!)
+### `.waft` returns a `string` for the following tilelive protocols:
+- `omnivore:` [tilelive-omnivore](https://github.com/mapbox/tilelive-omnivore)
 - `mbtiles:` [node-mbtiles](https://github.com/mapbox/node-mbtiles)
 - `tilejson:` [node-tilejson](https://github.com/mapbox/node-tilejson)
 - `serialtiles`: *special case*
