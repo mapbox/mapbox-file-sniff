@@ -1,10 +1,11 @@
 var zlib = require('zlib');
 var invalid = require('./lib/invalid');
 module.exports.sniff = sniff;
+module.exports.waft = waft;
 
 function sniff(buffer, callback) {
     if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
-    
+
     var head = buffer.toString().substring(0,50);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
@@ -40,5 +41,24 @@ function sniff(buffer, callback) {
         head = output.slice(0,50);
         if (head.toString().indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
         else return callback(invalid('Unknown filetype.'));
+    });
+}
+
+function waft(buffer, callback) {
+    var mapping = {
+        mbtiles: 'mbtiles:',
+        zip: 'omnivore:',
+        tif: 'omnivore:',
+        geojson: 'omnivore:',
+        kml: 'omnivore:',
+        gpx: 'omnivore:',
+        tilejson: 'tilejson:',
+        tm2z: 'tm2z:',
+        serialtiles: 'serialtiles:'
+    };
+
+    sniff(buffer, function(err, type) {
+        if (err) return callback(err);
+        callback(null, mapping[type]);
     });
 }
