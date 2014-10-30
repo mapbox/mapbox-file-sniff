@@ -81,8 +81,12 @@ function quaff(input, protocol, callback) {
 
       fs.read(fd, new Buffer(512), 0, 512, 0, function(err, bytes, buffer) {
           if (bytes.length < 300)
-              return callback(new Error('File too small'));
-          action(buffer, callback);
+              err = err || new Error('File too small');
+
+          fs.close(fd, function(closeErr) {
+              if (err || closeErr) return callback(err || closeErr);
+              action(buffer, callback);
+          });
       });
   });
 }

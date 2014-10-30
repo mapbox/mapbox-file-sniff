@@ -64,6 +64,20 @@ tape('[KML BOM] Sniffing file: should return kml filetype and omnivore protocol'
 				});
     });
 });
+tape('[KML Valid] quaff and sniff', function(assert) {
+		filesniffer.quaff(testData + '/data/kml/1week_earthquake.kml', function(err, result) {
+				assert.ifError(err, 'quaffed valid kml');
+				assert.equal(result, 'kml', 'smells right');
+				assert.end();
+		});
+});
+tape('[KML Valid] quaff and waft', function(assert) {
+		filesniffer.quaff(testData + '/data/kml/1week_earthquake.kml', true, function(err, result) {
+				assert.ifError(err, 'quaffed valid kml');
+				assert.equal(result, 'omnivore:', 'smells right');
+				assert.end();
+		});
+});
 tape('[GeoJson] Sniffing file: should return geojson filetype and omnivore protocol', function(assert) {
 		var filepath = testData + '/data/geojson/DC_polygon.geo.json';
     var expectedFiletype = 'geojson';
@@ -256,6 +270,22 @@ tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
 				});
     });
 });
+tape('[tilejson Invalid] quaff and sniff', function(assert) {
+		filesniffer.quaff(path.resolve('./test/data/invalid.tilejson'), function(err, result) {
+				assert.ok(err instanceof Error);
+				assert.equal(err.message, 'Unknown filetype.');
+				assert.equal('EINVALID', err.code);
+				assert.end();
+		});
+});
+tape('[tilejson Invalid] quaff and waft', function(assert) {
+		filesniffer.quaff(path.resolve('./test/data/invalid.tilejson'), true, function(err, result) {
+				assert.ok(err instanceof Error);
+				assert.equal(err.message, 'Unknown filetype.');
+				assert.equal('EINVALID', err.code);
+				assert.end();
+		});
+});
 tape('[serialtiles] Sniffing file: should return serialtiles filetype and serialtiles protocol', function(assert) {
     var filepath = path.resolve('./test/data/valid-serialtiles.gz');
     var expectedFiletype = 'serialtiles';
@@ -374,4 +404,11 @@ tape('[Not Buffer object] Passing in invalid parameter: should return error', fu
 						assert.end();
 				});
     });
+});
+tape('[No such file] empty gulp', function(assert) {
+		filesniffer.quaff(path.resolve('./test/data/fake'), function(err, result) {
+				assert.ok(err instanceof Error);
+				assert.equal('ENOENT', err.code);
+				assert.end();
+		});
 });
