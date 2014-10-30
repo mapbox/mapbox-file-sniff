@@ -1,7 +1,10 @@
 var zlib = require('zlib');
 var invalid = require('./lib/invalid');
+var fs = require('fs');
+
 module.exports.sniff = sniff;
 module.exports.waft = waft;
+module.exports.quaff = quaff;
 
 function sniff(buffer, callback) {
     if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
@@ -61,4 +64,25 @@ function waft(buffer, callback) {
         if (err) return callback(err);
         callback(null, mapping[type]);
     });
+}
+
+function quaff(input, protocol, callback) {
+  if (!callback) {
+    callback = protocol;
+    protocol = false;
+  }
+
+  var action = protocol ? waft : sniff;
+
+  if (input instanceof Buffer) return action(input, callback);
+
+  fs.open(input, 'r', function(err, fd) {
+      if (err) return callback(err);
+
+      fs.read(fd, new Buffer(512), 0, 512, 0, function(err, bytes, buffer) {
+          if (bytes.length < 300)
+              return callback(new Error('File too small'));
+          action(buffer, callback);
+      });
+  });
 }
