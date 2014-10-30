@@ -35,6 +35,10 @@ function sniff(buffer, callback) {
     if (head.indexOf('\"tilejson\":') !== -1){
         return callback(null, 'tilejson');
     }
+    // check for unzipped .shp
+    if (buffer.readUInt32BE(0) === 9994) {
+        return callback(null, 'shp');
+    }
 
     zlib.gunzip(buffer, function(err, output) {
         if (err) return callback(invalid('Unknown filetype.'));
@@ -50,6 +54,7 @@ function sniff(buffer, callback) {
 function waft(buffer, callback) {
     var mapping = {
         mbtiles: 'mbtiles:',
+        shp: 'omnivore:',
         zip: 'omnivore:',
         tif: 'omnivore:',
         geojson: 'omnivore:',
