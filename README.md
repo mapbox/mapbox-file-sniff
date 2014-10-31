@@ -37,6 +37,7 @@ $ mapbox-file-protocol path/to/data/file.geojson
 
 ### `.sniff` returns a `string` for the following filetypes:
 - Zipped shapefile: `zip`
+- Unziped shapefile: `shp`
 - GPX: `gpx`
 - KML: `kml`
 - GeoJSON: `geojson`
