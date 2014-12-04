@@ -17,7 +17,8 @@ function sniff(buffer, callback) {
         return callback(null, 'zip');
     }
     // check if geotiff
-    if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && buffer[2] === 42) {
+    // matches gdal validation logic: https://github.com/OSGeo/gdal/blob/trunk/gdal/frmts/gtiff/geotiff.cpp#L6892-L6893
+    if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && ((buffer[2] === 42) || buffer[3] === 42)) {
         return callback(null, 'tif');
     }
     // check for kml, gpx, tiljson or geojson
