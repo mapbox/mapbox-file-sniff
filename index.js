@@ -9,7 +9,7 @@ module.exports.quaff = quaff;
 function sniff(buffer, callback) {
     if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
 
-    var head = buffer.toString().substring(0,50);
+    var head = buffer.toString().substring(0,100);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
     }
@@ -42,13 +42,13 @@ function sniff(buffer, callback) {
     }
 
     zlib.gunzip(buffer, function(err, output) {
-        if (err) return callback(invalid('Unknown filetype.'));
+        if (err) return callback(invalid('Unknown filetype'));
         //check for tm2z
         if (output.toString().slice(257, 262) === 'ustar') return callback(null, 'tm2z');
         //check for serial tiles
         head = output.slice(0,50);
         if (head.toString().indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
-        else return callback(invalid('Unknown filetype.'));
+        else return callback(invalid('Unknown filetype'));
     });
 }
 

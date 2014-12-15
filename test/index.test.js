@@ -288,11 +288,11 @@ tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
     }
     filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Unknown filetype.');
+        assert.equal(err.message, 'Unknown filetype');
         assert.equal('EINVALID', err.code);
         filesniffer.waft(buffer, function(err) {
             assert.ok(err instanceof Error);
-            assert.equal(err.message, 'Unknown filetype.');
+            assert.equal(err.message, 'Unknown filetype');
             assert.equal('EINVALID', err.code);
             assert.end();
         });
@@ -301,7 +301,7 @@ tape('[tilejson Invalid] Sniffing file: should return error', function(assert) {
 tape('[tilejson Invalid] quaff and sniff', function(assert) {
     filesniffer.quaff(path.resolve('./test/data/invalid.tilejson'), function(err, result) {
         assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Unknown filetype.');
+        assert.equal(err.message, 'Unknown filetype');
         assert.equal('EINVALID', err.code);
         assert.end();
     });
@@ -309,7 +309,7 @@ tape('[tilejson Invalid] quaff and sniff', function(assert) {
 tape('[tilejson Invalid] quaff and waft', function(assert) {
     filesniffer.quaff(path.resolve('./test/data/invalid.tilejson'), true, function(err, result) {
         assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Unknown filetype.');
+        assert.equal(err.message, 'Unknown filetype');
         assert.equal('EINVALID', err.code);
         assert.end();
     });
@@ -385,11 +385,11 @@ tape('[tm2z Invalid malformed] Sniffing file: should return error', function(ass
     }
     filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Unknown filetype.');
+        assert.equal(err.message, 'Unknown filetype');
         assert.equal('EINVALID', err.code);
         filesniffer.waft(buffer, function(err) {
             assert.ok(err instanceof Error);
-            assert.equal(err.message, 'Unknown filetype.');
+            assert.equal(err.message, 'Unknown filetype');
             assert.equal('EINVALID', err.code);
             assert.end();
         });
@@ -409,11 +409,11 @@ tape('[tm2z Invalid empty] Sniffing file: should return error', function(assert)
     }
     filesniffer.sniff(buffer, function(err) {
         assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Unknown filetype.');
+        assert.equal(err.message, 'Unknown filetype');
         assert.equal('EINVALID', err.code);
         filesniffer.waft(buffer, function(err) {
             assert.ok(err instanceof Error);
-            assert.equal(err.message, 'Unknown filetype.');
+            assert.equal(err.message, 'Unknown filetype');
             assert.equal('EINVALID', err.code);
             assert.end();
         });
