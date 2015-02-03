@@ -34,7 +34,6 @@ tape('[KML] Sniffing file: should return kml filetype and omnivore protocol', fu
             assert.end();
         });
     });
-
 });
 tape('[KML BOM] Sniffing file: should return kml filetype and omnivore protocol', function(assert) {
     var filepath = path.resolve('./test/data/bom.kml');
@@ -74,6 +73,48 @@ tape('[KML Valid] quaff and sniff', function(assert) {
 tape('[KML Valid] quaff and waft', function(assert) {
     filesniffer.quaff(testData + '/data/kml/1week_earthquake.kml', true, function(err, result) {
         assert.ifError(err, 'quaffed valid kml');
+        assert.equal(result, 'omnivore:', 'smells right');
+        assert.end();
+    });
+});
+tape('[VRT] Sniffing file: should return vrt filetype and omnivore protocol', function(assert) {
+    var filepath = testData + '/data/vrt/sample.vrt';
+    var expectedFiletype = 'vrt';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
+tape('[VRT Valid] quaff and sniff', function(assert) {
+    filesniffer.quaff(testData + '/data/vrt/sample.vrt', function(err, result) {
+        assert.ifError(err, 'quaffed valid vrt');
+        assert.equal(result, 'vrt', 'smells right');
+        assert.end();
+    });
+});
+tape('[VRT Valid] quaff and waft', function(assert) {
+    filesniffer.quaff(testData + '/data/vrt/sample.vrt', true, function(err, result) {
+        assert.ifError(err, 'quaffed valid vrt');
         assert.equal(result, 'omnivore:', 'smells right');
         assert.end();
     });
