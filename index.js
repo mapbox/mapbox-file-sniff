@@ -36,6 +36,9 @@ function sniff(buffer, callback) {
     if (head.indexOf('\"tilejson\":') !== -1){
         return callback(null, 'tilejson');
     }
+    if (head.indexOf('<VRTDataset') !== -1){
+        return callback(null, 'vrt');
+    }
     // check for unzipped .shp
     if (buffer.readUInt32BE(0) === 9994) {
         return callback(null, 'shp');
@@ -58,6 +61,7 @@ function waft(buffer, callback) {
         shp: 'omnivore:',
         zip: 'omnivore:',
         tif: 'omnivore:',
+        vrt: 'omnivore:',
         geojson: 'omnivore:',
         kml: 'omnivore:',
         gpx: 'omnivore:',
