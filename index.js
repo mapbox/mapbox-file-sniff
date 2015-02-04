@@ -21,9 +21,20 @@ function sniff(buffer, callback) {
     if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && ((buffer[2] === 42) || buffer[3] === 42)) {
         return callback(null, 'tif');
     }
-    // check for kml, gpx, tiljson or geojson
+    // check for topojson/geojson
     if (head.indexOf('\"type\":') !== -1){
-        return callback(null, 'geojson');
+
+        var m = /"type":\s?"(.+?)"/.exec(head);
+        if (m[1] === 'Topology') return callback(null, 'topojson');
+        if (m[1] === 'Feature' || 
+          m[1] === 'FeatureCollection' || 
+          m[1] === 'Point' ||
+          m[1] === 'MultiPoint' ||
+          m[1] === 'LineString' ||
+          m[1] === 'MultiLineString' ||
+          m[1] === 'Polygon' ||
+          m[1] === 'MultiPolygon' ||
+          m[1] === 'GeometryCollection') return callback(null, 'geojson');
     }
     // take into account BOM char at index 0
     if (((head.indexOf('<?xml') === 1) || (head.indexOf('<?xml') === 0)) && (head.indexOf('<kml') !== -1)){
@@ -63,6 +74,7 @@ function waft(buffer, callback) {
         tif: 'omnivore:',
         vrt: 'omnivore:',
         geojson: 'omnivore:',
+        topojson: 'omnivore:',
         kml: 'omnivore:',
         gpx: 'omnivore:',
         tilejson: 'tilejson:',
