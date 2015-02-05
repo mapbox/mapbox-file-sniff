@@ -16,9 +16,9 @@ function sniff(buffer, callback) {
     if ((head[0] + head[1]) === 'PK'){
         return callback(null, 'zip');
     }
-    // check if geotiff
+    // check if geotiff/bigtiff
     // matches gdal validation logic: https://github.com/OSGeo/gdal/blob/trunk/gdal/frmts/gtiff/geotiff.cpp#L6892-L6893
-    if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && ((buffer[2] === 42) || buffer[3] === 42)) {
+    if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && ((buffer[2] === 42) || buffer[3] === 42 || buffer[2] === 43)){
         return callback(null, 'tif');
     }
     // check for topojson/geojson
