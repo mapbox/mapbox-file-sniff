@@ -58,7 +58,8 @@ function sniff(buffer, callback) {
     zlib.gunzip(buffer, function(err, output) {
         if (err) return callback(invalid('Unknown filetype'));
         //check for tm2z
-        if (output.toString().slice(257, 262) === 'ustar') return callback(null, 'tm2z');
+        if (output.toString().slice(257, 262) === 'ustar' ||
+          output.toString().slice(256, 261) === 'ustar') return callback(null, 'tm2z');
         //check for serial tiles
         head = output.slice(0,50);
         if (head.toString().indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
