@@ -468,6 +468,34 @@ tape('[tm2z] Sniffing file: should return tm2z filetype and tm2z protocol', func
         });
     });
 });
+tape('[tm2z] Sniffing file with extended header: should return tm2z filetype and tm2z protocol', function(assert) {
+    var filepath = path.resolve('./test/data/valid-paxheader.gz');
+    var expectedFiletype = 'tm2z';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'tm2z:');
+            assert.end();
+        });
+    });
+});
 tape('[tm2z Invalid malformed] Sniffing file: should return error', function(assert) {
     var filepath = path.resolve('./test/data/invalid-malformed.tm2z');
     var buffer;
