@@ -9,7 +9,30 @@ module.exports.quaff = quaff;
 function sniff(buffer, callback) {
     if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
 
-    var head = buffer.toString().substring(0,100);
+    var header = buffer.toString().substring(0,400);
+
+    // check for topojson/geojson
+    if (header.trim().indexOf('{') == 0) {
+        if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
+        if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
+        if (header.indexOf('\"type\":') !== -1) {
+            var m = /"type":\s?"(.+?)"/.exec(header);
+            if (m[1] === 'Topology') return callback(null, 'topojson');
+            if (m[1] === 'Feature' || 
+              m[1] === 'FeatureCollection' || 
+              m[1] === 'Point' ||
+              m[1] === 'MultiPoint' ||
+              m[1] === 'LineString' ||
+              m[1] === 'MultiLineString' ||
+              m[1] === 'Polygon' ||
+              m[1] === 'MultiPolygon' ||
+              m[1] === 'GeometryCollection') return callback(null, 'geojson');
+        }
+
+        return callback(invalid('Unknown filetype'));
+    }
+
+    head = header.substring(0,100);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
     }
@@ -21,21 +44,6 @@ function sniff(buffer, callback) {
     if ((head.slice(0, 2).toString() === 'II' || head.slice(0, 2).toString() === 'MM') && ((buffer[2] === 42) || buffer[3] === 42 || buffer[2] === 43)){
         return callback(null, 'tif');
     }
-    // check for topojson/geojson
-    if (head.indexOf('\"type\":') !== -1){
-
-        var m = /"type":\s?"(.+?)"/.exec(head);
-        if (m[1] === 'Topology') return callback(null, 'topojson');
-        if (m[1] === 'Feature' || 
-          m[1] === 'FeatureCollection' || 
-          m[1] === 'Point' ||
-          m[1] === 'MultiPoint' ||
-          m[1] === 'LineString' ||
-          m[1] === 'MultiLineString' ||
-          m[1] === 'Polygon' ||
-          m[1] === 'MultiPolygon' ||
-          m[1] === 'GeometryCollection') return callback(null, 'geojson');
-    }
     // take into account BOM char at index 0
     if (((head.indexOf('<?xml') === 1) || (head.indexOf('<?xml') === 0)) && (head.indexOf('<kml') !== -1)){
         return callback(null, 'kml');
@@ -43,9 +51,6 @@ function sniff(buffer, callback) {
     // take into account BOM char at index 0
     if (((head.indexOf('<?xml') === 1) || (head.indexOf('<?xml') === 0)) && (head.indexOf('<gpx') !== -1)){
         return callback(null, 'gpx');
-    }
-    if (head.indexOf('\"tilejson\":') !== -1){
-        return callback(null, 'tilejson');
     }
     if (head.indexOf('<VRTDataset') !== -1){
         return callback(null, 'vrt');
