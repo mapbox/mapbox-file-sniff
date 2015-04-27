@@ -18,7 +18,7 @@ function sniff(buffer, callback) {
           console.log("TILEJSON!!!!");
           return callback(null, 'tilejson');
         }
-        else if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== 1)){
+        else if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)){
           console.log("TOPOJSON: catching arcs/objects properties somewhere in the header");
           return callback(null, 'topojson');
         }
