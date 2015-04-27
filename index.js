@@ -13,21 +13,11 @@ function sniff(buffer, callback) {
 
     // check for topojson/geojson
     if (header.trim().indexOf('{') == 0) {
-        console.log(header);
-        if (header.indexOf('\"tilejson\":') !== -1){
-          console.log("TILEJSON!!!!");
-          return callback(null, 'tilejson');
-        }
-        else if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)){
-          console.log("TOPOJSON: catching arcs/objects properties somewhere in the header");
-          return callback(null, 'topojson');
-        }
-        else if (header.indexOf('\"type\":') !== -1) {
+        if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
+        if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
+        if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
-            if (m[1] === 'Topology') {
-              console.log("found Topology within the type property");
-              return callback(null, 'topojson');
-            }
+            if (m[1] === 'Topology') return callback(null, 'topojson');
             if (m[1] === 'Feature' || 
               m[1] === 'FeatureCollection' || 
               m[1] === 'Point' ||
@@ -38,7 +28,8 @@ function sniff(buffer, callback) {
               m[1] === 'MultiPolygon' ||
               m[1] === 'GeometryCollection') return callback(null, 'geojson');
         }
-        else return callback(invalid('Unknown filetype'));
+
+        return callback(invalid('Unknown filetype'));
     }
 
     head = header.substring(0,100);
