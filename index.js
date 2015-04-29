@@ -13,7 +13,7 @@ function sniff(buffer, callback) {
 
     // check for topojson/geojson
     if (header.trim().indexOf('{') == 0) {
-        
+
         // Remove spaces
         var str = JSON.stringify(header);
         var nospaces = str.replace(/\s/g, '');
