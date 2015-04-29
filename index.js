@@ -13,6 +13,12 @@ function sniff(buffer, callback) {
 
     // check for topojson/geojson
     if (header.trim().indexOf('{') == 0) {
+        
+        // Remove spaces
+        var str = JSON.stringify(header);
+        var nospaces = str.replace(/\s/g, '');
+        header = JSON.parse(nospaces);
+
         if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
         if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
         if (header.indexOf('\"type\":') !== -1) {
