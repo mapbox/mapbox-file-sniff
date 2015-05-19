@@ -621,3 +621,79 @@ tape('[CSV] Sniffing file: should return csv filetype and omnivore protocol', fu
         });
     });
 });
+tape('[CSV] Sniffing another file: should return csv filetype and omnivore protocol', function(assert) {
+    var filepath = path.resolve('./test/data/valid-lines.csv');
+    var expectedFiletype = 'csv';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
+tape('[CSV Invalid empty] Sniffing file: should return error', function(assert) {
+    var filepath = path.resolve('./test/data/invalid-blank.csv');
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
+        assert.ok(err instanceof Error);
+        assert.equal(err.message, 'Unknown filetype');
+        assert.equal('EINVALID', err.code);
+        filesniffer.waft(buffer, function(err) {
+            assert.ok(err instanceof Error);
+            assert.equal(err.message, 'Unknown filetype');
+            assert.equal('EINVALID', err.code);
+            assert.end();
+        });
+    });
+});
+tape('[CSV Invalid Geometries] Sniffing file: should return error', function(assert) {
+    var filepath = path.resolve('./test/data/invalid_geometries.csv');
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
+        assert.ok(err instanceof Error);
+        assert.equal(err.message, 'Unknown filetype');
+        assert.equal('EINVALID', err.code);
+        filesniffer.waft(buffer, function(err) {
+            assert.ok(err instanceof Error);
+            assert.equal(err.message, 'Unknown filetype');
+            assert.equal('EINVALID', err.code);
+            assert.end();
+        });
+    });
+});
