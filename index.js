@@ -1,5 +1,6 @@
 var zlib = require('zlib');
 var invalid = require('./lib/invalid');
+var isgeocsv = require('./lib/isgeocsv');
 var fs = require('fs');
 
 module.exports.sniff = sniff;
@@ -66,6 +67,10 @@ function sniff(buffer, callback) {
         return callback(null, 'shp');
     }
 
+    if (isgeocsv(buffer)) {
+        return callback(null, 'csv');
+    }
+
     zlib.gunzip(buffer, function(err, output) {
         if (err) return callback(invalid('Unknown filetype'));
         //check for tm2z
@@ -79,6 +84,7 @@ function sniff(buffer, callback) {
 
 function waft(buffer, callback) {
     var mapping = {
+        csv: 'omnivore:',
         mbtiles: 'mbtiles:',
         shp: 'omnivore:',
         zip: 'omnivore:',
