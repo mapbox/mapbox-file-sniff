@@ -1,13 +1,14 @@
 var zlib = require('zlib');
 var invalid = require('./lib/invalid');
 var fs = require('fs');
+var bf = require('buffer');
 
 module.exports.sniff = sniff;
 module.exports.waft = waft;
 module.exports.quaff = quaff;
 
 function sniff(buffer, callback) {
-    if (buffer instanceof Buffer === false) return callback(invalid('Must pass in type Buffer object.'));
+    if (Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
 
     var header = buffer.toString().substring(0,400);
 
@@ -24,8 +25,8 @@ function sniff(buffer, callback) {
         if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
             if (m[1] === 'Topology') return callback(null, 'topojson');
-            if (m[1] === 'Feature' || 
-              m[1] === 'FeatureCollection' || 
+            if (m[1] === 'Feature' ||
+              m[1] === 'FeatureCollection' ||
               m[1] === 'Point' ||
               m[1] === 'MultiPoint' ||
               m[1] === 'LineString' ||
