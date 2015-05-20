@@ -67,6 +67,7 @@ function sniff(buffer, callback) {
         return callback(null, 'shp');
     }
 
+    // Check for geocsv
     if (isgeocsv(buffer)) {
         return callback(null, 'csv');
     }

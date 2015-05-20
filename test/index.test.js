@@ -621,8 +621,64 @@ tape('[CSV] Sniffing file: should return csv filetype and omnivore protocol', fu
         });
     });
 });
-tape('[CSV] Sniffing another file: should return csv filetype and omnivore protocol', function(assert) {
-    var filepath = path.resolve('./test/data/valid-lines.csv');
+tape('[CSV] Sniffing file with blank first line: should return csv filetype and omnivore protocol', function(assert) {
+    var filepath = path.resolve('./test/data/blank_rows.csv');
+    var expectedFiletype = 'csv';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
+tape('[CSV] Sniffing file with one field: should return csv filetype and omnivore protocol', function(assert) {
+    var filepath = path.resolve('./test/data/valid-one-field.csv');
+    var expectedFiletype = 'csv';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
+tape('[CSV] Sniffing file with empty rows: should return csv filetype and omnivore protocol', function(assert) {
+    var filepath = path.resolve('./test/data/valid-empty_rows.csv');
     var expectedFiletype = 'csv';
     var buffer;
     try {
