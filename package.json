@@ -7,7 +7,9 @@
     "type": "git",
     "url": "https://github.com/mapbox/mapbox-file-sniff"
   },
-  "dependencies": {},
+  "dependencies": {
+    "buffer": "^3.2.2"
+  },
   "devDependencies": {
     "tape": "3.0.x",
     "coveralls": "~2.11.1",
