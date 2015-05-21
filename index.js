@@ -1,6 +1,6 @@
 var zlib = require('zlib');
+var isgeocsv = require('detect-geocsv');
 var invalid = require('./lib/invalid');
-var isgeocsv = require('./lib/isgeocsv');
 var fs = require('fs');
 
 module.exports.sniff = sniff;
