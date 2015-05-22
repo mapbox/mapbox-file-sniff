@@ -46,6 +46,7 @@ $ mapbox-file-protocol path/to/data/file.geojson
 - TileJSON: `tilejson`
 - Serialtiles: `serialtiles`
 - tm2z: `tm2z`
+- csv: `csv`
 
 ### `.waft` returns a `string` for the following tilelive protocols:
 - `omnivore:` [tilelive-omnivore](https://github.com/mapbox/tilelive-omnivore)
