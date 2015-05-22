@@ -1,6 +1,6 @@
 {
   "name": "mapbox-file-sniff",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "Detects type of spatial file",
   "main": "index.js",
   "repository": {
