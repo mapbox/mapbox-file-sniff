@@ -8,14 +8,14 @@
     "url": "https://github.com/mapbox/mapbox-file-sniff"
   },
   "dependencies": {
-    "detect-geocsv": "0.0.1",
+    "detect-geocsv": "0.0.2",
     "buffer": "^3.2.2"
   },
   "devDependencies": {
     "tape": "3.0.x",
     "coveralls": "~2.11.1",
     "istanbul": "~0.3.0",
-    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.3-fece0a9c546074a1479e9eae2333184029bb2279.tgz"
+    "mapnik-test-data": "https://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.1.0-04476a347181c625e3356e2e56f8e2f43e134260.tgz"
   },
   "scripts": {
     "test": "tape test/*.js",
