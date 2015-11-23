@@ -64,7 +64,7 @@ function sniff(buffer, callback) {
         return callback(null, 'vrt');
     }
     // check for unzipped .shp
-    if (buffer.readUInt32BE(0) === 9994) {
+    if (buffer.length > 32 && buffer.readUInt32BE(0) === 9994) {
         return callback(null, 'shp');
     }
 
@@ -119,14 +119,18 @@ function quaff(input, protocol, callback) {
 
   fs.open(input, 'r', function(err, fd) {
       if (err) return callback(err);
+      fs.fstat(fd, function(err, stats) {
+          if (err) return callback(err);
+          var size = stats.size < 512 ? stats.size : 512;
 
-      fs.read(fd, new Buffer(512), 0, 512, 0, function(err, bytes, buffer) {
-          if (bytes.length < 300)
-              err = err || new Error('File too small');
+          fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
+              if (bytes < 2)
+                  err = err || new Error('File too small');
 
-          fs.close(fd, function(closeErr) {
-              if (err || closeErr) return callback(err || closeErr);
-              action(buffer, callback);
+              fs.close(fd, function(closeErr) {
+                  if (err || closeErr) return callback(err || closeErr);
+                  action(buffer, callback);
+              });
           });
       });
   });
