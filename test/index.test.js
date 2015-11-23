@@ -593,6 +593,13 @@ tape('[No such file] empty gulp', function(assert) {
         assert.end();
     });
 });
+tape('[Small file] small gulp', function(assert) {
+    filesniffer.quaff(path.resolve('./test/data/small.csv'), function(err, result) {
+        assert.ok(err instanceof Error);
+        assert.equal('EINVALID', err.code);
+        assert.end();
+    });
+});
 tape('[CSV] Sniffing file: should return csv filetype and omnivore protocol', function(assert) {
     var filepath = path.resolve('./test/data/valid-points.csv');
     var expectedFiletype = 'csv';
