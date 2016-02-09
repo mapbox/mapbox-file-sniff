@@ -40,7 +40,7 @@ function sniff(buffer, callback) {
         return callback(invalid('Unknown filetype'));
     }
 
-    head = header.substring(0,100);
+    var head = header.substring(0,100);
     if (head.indexOf('SQLite format 3') === 0){
         return callback(null, 'mbtiles');
     }
