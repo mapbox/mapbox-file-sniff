@@ -469,7 +469,7 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype and serial
     });
 });
 tape('[serialtiles] Sniffing file: should return serialtiles filetype and serialtiles protocol', function(assert) {
-    var filepath = path.resolve('.test/data/valid-not-csv.serialtiles.gz');
+    var filepath = path.resolve('./test/data/valid-not-csv.serialtiles.gz');
     var expectedFiletype = 'serialtiles';
     var buffer;
     try {
