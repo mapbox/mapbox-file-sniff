@@ -468,6 +468,35 @@ tape('[serialtiles] Sniffing file: should return serialtiles filetype and serial
         });
     });
 });
+tape('[serialtiles] Sniffing file: should return serialtiles filetype and serialtiles protocol', function(assert) {
+    var filepath = path.resolve('./test/data/valid-not-csv.serialtiles.gz');
+    var expectedFiletype = 'serialtiles';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        console.log('hi');
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'serialtiles:');
+            assert.end();
+        });
+    });
+});
 tape('[tm2z] Sniffing file: should return tm2z filetype and tm2z protocol', function(assert) {
     var filepath = path.resolve('./test/data/valid.tm2z');
     var expectedFiletype = 'tm2z';
