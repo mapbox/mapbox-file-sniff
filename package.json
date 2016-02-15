@@ -8,7 +8,7 @@
     "url": "https://github.com/mapbox/mapbox-file-sniff"
   },
   "dependencies": {
-    "detect-geocsv": "0.0.2",
+    "detect-geocsv": "0.0.3",
     "buffer": "^3.2.2"
   },
   "devDependencies": {
