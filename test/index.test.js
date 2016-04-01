@@ -615,6 +615,28 @@ tape('[Not Buffer object] Passing in invalid parameter: should return error', fu
         });
     });
 });
+tape('[Invalid type value] Passing in an invalid value for the type property: should return error', function(assert) {
+    var filepath = path.resolve('./test/data/invalid-type.json')
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err) {
+        assert.ok(err instanceof Error);
+        assert.equal(err.message, 'Unknown filetype');
+        filesniffer.waft(buffer, function(err) {
+            assert.ok(err instanceof Error);
+            assert.equal(err.code, 'EINVALID');
+            assert.end();
+        });
+    });
+});
 tape('[No such file] empty gulp', function(assert) {
     filesniffer.quaff(path.resolve('./test/data/fake'), function(err, result) {
         assert.ok(err instanceof Error);

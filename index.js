@@ -25,6 +25,9 @@ function sniff(buffer, callback) {
         if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
         if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
+            if (!m) {
+              return callback(invalid('Unknown filetype'));
+            }
             if (m[1] === 'Topology') return callback(null, 'topojson');
             if (m[1] === 'Feature' ||
               m[1] === 'FeatureCollection' ||
