@@ -15,10 +15,12 @@
     "tape": "3.0.x",
     "coveralls": "~2.11.1",
     "istanbul": "~0.3.0",
-    "mapnik-test-data": "https://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.1.0-04476a347181c625e3356e2e56f8e2f43e134260.tgz"
+    "mapnik-test-data": "https://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.1.0-04476a347181c625e3356e2e56f8e2f43e134260.tgz",
+    "eslint": "~1.00.0",
+    "eslint-config-unstyled": "^1.1.0"
   },
   "scripts": {
-    "test": "tape test/*.js",
+    "test": "eslint index.js lib && tape test/*.js",
     "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
   },
   "bin": {
