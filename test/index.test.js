@@ -439,12 +439,12 @@ tape('[tilejson Invalid] quaff and waft', function(assert) {
         assert.end();
     });
 });
-tape('[gzip] Sniffing file: should return gz filetype', function (assert) {
+tape('[tif+gz] Sniffing file: should return tif+gz filetype', function (assert) {
     var filepath = path.resolve('./test/data/atiff.tif.gz');
-    var expectedFiletype = 'gz';
+    var expectedFiletype = 'tif+gz';
     filesniffer.quaff(filepath, function (err, filetype) {
         assert.ifError(err, 'no error');
-        assert.equal(filetype, expectedFiletype, 'filetype: gz');
+        assert.equal(filetype, expectedFiletype, 'filetype: ' + filetype);
         assert.end();
     });
 });
