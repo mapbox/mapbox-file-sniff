@@ -83,7 +83,7 @@ function sniff(buffer, callback) {
         //check for serial tiles
         head = output.slice(0,50);
         if (head.toString().indexOf('JSONBREAKFASTTIME') === 0) return callback(null, 'serialtiles');
-        else return callback(invalid('Unknown filetype'));
+        else return callback(invalid('gz'));
     });
 }
 
