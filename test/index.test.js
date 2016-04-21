@@ -439,6 +439,15 @@ tape('[tilejson Invalid] quaff and waft', function(assert) {
         assert.end();
     });
 });
+tape('[gzip] Sniffing file: should return gz filetype', function (assert) {
+    var filepath = path.resolve('./test/data/atiff.tif.gz');
+    var expectedFiletype = 'gz';
+    filesniffer.quaff(filepath, function (err, filetype) {
+        assert.ifError(err, 'no error');
+        assert.equal(filetype, expectedFiletype, 'filetype: gz');
+        assert.end();
+    });
+});
 tape('[serialtiles] Sniffing file: should return serialtiles filetype and serialtiles protocol', function(assert) {
     var filepath = path.resolve('./test/data/valid-serialtiles.gz');
     var expectedFiletype = 'serialtiles';
