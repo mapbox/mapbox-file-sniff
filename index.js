@@ -39,9 +39,7 @@ function sniff(buffer, callback) {
                 m[1] === 'Polygon' ||
                 m[1] === 'MultiPolygon' ||
                 m[1] === 'GeometryCollection') return callback(null, 'geojson');
-        }
-        console.log(header.indexOf("type:"));
-        return callback(invalid('Unknown filetype'));
+        }return callback(invalid('Unknown filetype'));
     }
 
     var head = header.substring(0, 100);
