@@ -23,6 +23,7 @@ function sniff(buffer, callback) {
 
         if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
         if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
+        if (header.indexOf('\"crs\":') !== -1) return callback(null, 'geojson');
         if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
             if (!m) {
@@ -39,7 +40,7 @@ function sniff(buffer, callback) {
                 m[1] === 'MultiPolygon' ||
                 m[1] === 'GeometryCollection') return callback(null, 'geojson');
         }
-
+        console.log(header.indexOf("type:"));
         return callback(invalid('Unknown filetype'));
     }
 
