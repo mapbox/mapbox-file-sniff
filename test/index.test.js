@@ -175,6 +175,62 @@ tape('[GeoJson-CRS] Sniffing file: should return geojson file type', function(as
         });
     });
 });
+tape('[GeoJson-geometries] Sniffing file: should return geojson file type', function(assert) {
+    var filepath = path.resolve('./test/data/valid-geometries.json');
+    var expectedFiletype = 'geojson';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
+tape('[GeoJson-coordinates] Sniffing file: should return geojson file type', function(assert) {
+    var filepath = path.resolve('./test/data/valid-coordinates.json');
+    var expectedFiletype = 'geojson';
+    var buffer;
+    try {
+        fs.statSync(filepath);
+        buffer = new Buffer(512);
+        var fd = fs.openSync(filepath, 'r');
+        fs.readSync(fd, buffer, 0, 512, 0);
+        fs.closeSync(fd);
+    } catch (err) {
+        return assert.end(err);
+    }
+    filesniffer.sniff(buffer, function(err, filetype) {
+        if (err) return assert.end(err);
+        assert.ok(err === null);
+        try {
+            assert.equal(filetype, expectedFiletype);
+        } catch (err) {
+            return assert.end(err);
+        }
+        filesniffer.waft(buffer, function(err, protocol) {
+            assert.ifError(err);
+            assert.equal(protocol, 'omnivore:');
+            assert.end();
+        });
+    });
+});
 tape('[GeoJson-Other] Sniffing file: should return geojson file type', function(assert) {
     var filepath = path.resolve('./test/data/xtracharacters.json');
     var expectedFiletype = 'geojson';

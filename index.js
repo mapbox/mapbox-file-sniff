@@ -23,7 +23,7 @@ function sniff(buffer, callback) {
 
         if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
         if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
-        if ((header.indexOf('\"crs\":') !== -1) || (header.indexOf('\"features\":') !== -1)) return callback(null, 'geojson');
+        if ((header.indexOf('\"features\":') !== -1) || (header.indexOf('\"geometries\":') !== -1) || (header.indexOf('\"coordinates\":') !== -1)) return callback(null, 'geojson');
         if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
             if (!m) {
@@ -39,7 +39,8 @@ function sniff(buffer, callback) {
                 m[1] === 'Polygon' ||
                 m[1] === 'MultiPolygon' ||
                 m[1] === 'GeometryCollection') return callback(null, 'geojson');
-        }return callback(invalid('Unknown filetype'));
+        }
+        return callback(invalid('Unknown filetype'));
     }
 
     var head = header.substring(0, 100);
