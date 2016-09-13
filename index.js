@@ -76,7 +76,7 @@ function sniff(buffer, callback) {
         return callback(null, 'csv');
     }
 
-    zlib.gunzip(buffer, function (err, output) {
+    zlib.gunzip(buffer, {finishFlush: zlib.Z_SYNC_FLUSH}, function (err, output) {
         if (err) return callback(invalid('Unknown filetype'));
         //check for tm2z
         if (output.toString('ascii', 257, 262) === 'ustar') return callback(null, 'tm2z');
