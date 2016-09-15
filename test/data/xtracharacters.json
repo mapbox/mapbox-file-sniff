@@ -1,0 +1,25 @@
+{
+  "features": [
+    {
+      "properties": {
+        "name": "Phasellus nec bibendum lacus. Nullam sit amet leo ipsum. Aliquam erat volutpat. Morbi sollicitudin risus at tristique gravida. Duis ornare ullamcorper arcu ut malesuada. Ut sapien massa, aliquet lobortis iaculis sed, venenatis eget ante. Sed aliquet nunc nunc, sit amet tincidunt libero aliquet nec. Curabitur nec dui ut ex blandit sagittis id at augue. Suspendisse et metus eget lorem lacinia congue. Aenean dictum finibus condimentum. Donec ultricies convallis orci, sit amet sodales orci gravida id. Nam sagittis neque vel congue maximus. Mauris porta quam non hendrerit consectetur. Aliquam congue nibh at nisl pulvinar varius. Nunc in ullamcorper tellus. Sed hendrerit metus metus, quis tincidunt felis consectetur eu."
+      },
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [125.6, 10.1]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [125.6, 10.1]
+      },
+      "properties": {
+        "name": "Dinagat Islands"
+      }
+    }
+  ],
+  "type": "FeatureCollection"
+}

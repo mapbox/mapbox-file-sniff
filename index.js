@@ -3,6 +3,18 @@ var isgeocsv = require('detect-geocsv');
 var invalid = require('./lib/invalid');
 var fs = require('fs');
 var bf = require('buffer');
+var semver = require('semver');
+
+if (semver.major(process.version) > 0) {
+    function zlib_gunzip(buffer,zlib_opts,callback) {
+        zlib.gunzip(buffer, zlib_opts, callback);
+    }
+} else {
+    // node v0.10 does not support options passed to zlib.gunzip
+    function zlib_gunzip(buffer,zlib_opts,callback) {
+        zlib.gunzip(buffer, callback);
+    }
+}
 
 module.exports.sniff = sniff;
 module.exports.waft = waft;
@@ -23,6 +35,7 @@ function sniff(buffer, callback) {
 
         if (header.indexOf('\"tilejson\":') !== -1) return callback(null, 'tilejson');
         if ((header.indexOf('\"arcs\":') !== -1) || (header.indexOf('\"objects\":') !== -1)) return callback(null, 'topojson');
+        if ((header.indexOf('\"features\":') !== -1) || (header.indexOf('\"geometries\":') !== -1) || (header.indexOf('\"coordinates\":') !== -1)) return callback(null, 'geojson');
         if (header.indexOf('\"type\":') !== -1) {
             var m = /"type":\s?"(.+?)"/.exec(header);
             if (!m) {
@@ -39,7 +52,6 @@ function sniff(buffer, callback) {
                 m[1] === 'MultiPolygon' ||
                 m[1] === 'GeometryCollection') return callback(null, 'geojson');
         }
-
         return callback(invalid('Unknown filetype'));
     }
 
@@ -76,8 +88,7 @@ function sniff(buffer, callback) {
         return callback(null, 'csv');
     }
 
-    zlib.gunzip(buffer, function (err, output) {
-        if (err) return callback(invalid('Unknown filetype'));
+    function returnOutput(output,callback) {
         //check for tm2z
         if (output.toString('ascii', 257, 262) === 'ustar') return callback(null, 'tm2z');
         //check for serial tiles
@@ -92,6 +103,12 @@ function sniff(buffer, callback) {
 
         //default to unknown
         return callback(invalid('Unknown filetype'));
+    }
+
+    var zlib_opts = {finishFlush: zlib.Z_SYNC_FLUSH };
+    zlib_gunzip(buffer, zlib_opts, function (err, output) {
+        if (err) return callback(invalid('Unknown filetype'));
+        returnOutput(output,callback);
     });
 }
 
