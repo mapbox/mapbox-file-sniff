@@ -5,7 +5,7 @@ var fs = require('fs');
 var bf = require('buffer');
 var semver = require('semver');
 
-if (semver.major(process.version) > 0) {
+if (process.version && semver.major(process.version) > 0) {
     function zlib_gunzip(buffer,zlib_opts,callback) {
         zlib.gunzip(buffer, zlib_opts, callback);
     }
