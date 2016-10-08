@@ -1,3 +1,7 @@
+## 0.5.3
+
+- Bug: using `process.version` resulted in browserify incompatibility, adding a quick check for `process.version` fixes the issue. [#48](https://github.com/mapbox/mapbox-file-sniff/issues/48)
+
 ## 0.5.2
 
 - expand GeoJSON filetype detection with smarter sniffing
