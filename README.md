@@ -67,9 +67,12 @@ Returns a `string` for the following tilelive protocols:
 - `serialtiles`: *special case*
 - `tm2z`: [tilelive-vector](https://github.com/mapbox/tilelive-vector)
 
-### `quaff(filepath, protocol, callback)`
+### `quaff(filepath, checkProtocol, callback)`
 
-A wrapper around `waft` and `sniff` that lets you pass in a file path (read as a buffer) and protocol to either return the protocol (waft) or the file type (sniff).
+A wrapper around `waft` and `sniff` that lets you pass in a file path (read as a buffer). The `callback` will be invoked in one of two ways:
+
+- If `checkProtocol` is `true`, the `callback` is passed a `string` for the relevant tilelive protocol (see list above). This is the equivalent of `waft`.
+- If `checkProtocol` is `false`, the `callback` is passed a `string` for the detected file type (see list above). This is the equivalent of `sniff`.
 
 ## Tests
 
