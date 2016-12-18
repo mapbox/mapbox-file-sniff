@@ -16,13 +16,29 @@ if (process.version && semver.major(process.version) > 0) {
     }
 }
 
-module.exports.sniff = sniff;
-module.exports.waft = waft;
-module.exports.quaff = quaff;
+/**
+ * Main sniffer.
+ */
+module.exports = function(file, callback) {
+    if (!callback || typeof callback !== 'function') throw new Error('Invalid callback. Must be a function.');
 
-function sniff(buffer, callback) {
-    if (Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
+    if (Buffer.isBuffer(file)) {
+        detect(file, done);
+    } else {
+        getBuffer(file, function(err, buffer) {
+            if (err) return callback(err);
+            detect(buffer, done);
+        });
+    }
 
+    function done(err, type) {
+        if (err) return callback(err);
+        var protocol = getProtocol(type);
+        return callback(null, { type: type, protocol: protocol });
+    }
+};
+
+function detect(buffer, callback) {
     var header = buffer.toString().substring(0, 400);
 
     // check for topojson/geojson
@@ -108,17 +124,18 @@ function sniff(buffer, callback) {
     var zlib_opts = {finishFlush: zlib.Z_SYNC_FLUSH };
     zlib_gunzip(buffer, zlib_opts, function (err, output) {
         if (err) return callback(invalid('Unknown filetype'));
-        returnOutput(output,callback);
+        returnOutput(output, callback);
     });
 }
 
-function waft(buffer, callback) {
+function getProtocol(type) {
     var mapping = {
         csv: 'omnivore:',
         mbtiles: 'mbtiles:',
         shp: 'omnivore:',
         zip: 'omnivore:',
         tif: 'omnivore:',
+        "tif+gz": 'omnivore:',
         vrt: 'omnivore:',
         geojson: 'omnivore:',
         topojson: 'omnivore:',
@@ -129,35 +146,24 @@ function waft(buffer, callback) {
         serialtiles: 'serialtiles:'
     };
 
-    sniff(buffer, function (err, type) {
-        if (err) return callback(err);
-        callback(null, mapping[type]);
-    });
+    return mapping[type];
 }
 
-function quaff(input, protocol, callback) {
-    if (!callback) {
-        callback = protocol;
-        protocol = false;
-    }
-
-    var action = protocol ? waft : sniff;
-
-    if (input instanceof Buffer) return action(input, callback);
-
-    fs.open(input, 'r', function (err, fd) {
-        if (err) return callback(err);
-        fs.fstat(fd, function (err, stats) {
-            if (err) return callback(err);
+function getBuffer(filepath, callback) {
+    fs.open(filepath, 'r', function(err, fd) {
+        if (err) return callback(invalid(err));
+        fs.fstat(fd, function(err, stats) {
+            if (err) return callback(invalid(err));
             var size = stats.size < 512 ? stats.size : 512;
 
-            fs.read(fd, new Buffer(size), 0, size, 0, function (err, bytes, buffer) {
-                if (bytes < 2)
+            fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
+                if (bytes <= 2)
                     err = err || new Error('File too small');
 
-                fs.close(fd, function (closeErr) {
-                    if (err || closeErr) return callback(err || closeErr);
-                    action(buffer, callback);
+                fs.close(fd, function(closeErr) {
+                    if (err) return callback(invalid(err));
+                    if (closeErr) return callback(invalid(closeErr));
+                    return callback(null, buffer);
                 });
             });
         });

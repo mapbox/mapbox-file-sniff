@@ -1,3 +1,9 @@
+## 1.0.0
+
+- merge all methods into a single method provided at require time - so long funny names :(
+- auto-detect filepath string vs buffer
+- returns both filetype and protocol instead of two separate methods to avoid redundant execution
+
 ## 0.5.3
 
 - Bug: using `process.version` resulted in browserify incompatibility, adding a quick check for `process.version` fixes the issue. [#48](https://github.com/mapbox/mapbox-file-sniff/issues/48)
@@ -51,7 +57,7 @@
 
 ## 0.3.2
 
-- improved `ustar` check 
+- improved `ustar` check
 
 ## 0.3.1
 

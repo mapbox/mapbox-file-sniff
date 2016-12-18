@@ -2,48 +2,9 @@
 
 ## Mapbox File Sniff [![Build Status](https://travis-ci.org/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-file-sniff)
 
-Node module that returns spatial filetype.
+Node module that returns a spatial filetype and protocol.
 
-### Install
-
-With npm:
-```
-npm install -g mapbox-file-sniff
-```
-
-### Javascript example
-```javascript
-var filesniffer = require('mapbox-file-sniff');
-var buffer = fs.readFileSync('path/to/data/file.geojson');
-
-filesniffer.sniff(buffer, function(err, filetype){
-	console.log(filetype); // => 'geojson'
-});
-
-filesniffer.waft(buffer, function(err, protocol) {
-  console.log(protocol); // 'omnivore:'
-});
-
-filesniffer.quaff('path/to/data/file.geojson', true, function(err, protocol) {
-  console.log(protocol); // => 'geojson'
-});
-```
-
-### CLI example
-```sh
-$ mapbox-file-type path/to/data/file.geojson
-# geojson
-$ mapbox-file-protocol path/to/data/file.geojson
-# omnivore:
-```
-
-- `buffer`: Buffer object of file contents (at least length 300)
-
-## API
-
-### `sniff(buffer, callback)` 
-
-Returns a `string` for the following filetypes:
+File types:
 
 - Zipped shapefile: `zip`
 - Unziped shapefile: `shp`
@@ -57,9 +18,7 @@ Returns a `string` for the following filetypes:
 - tm2z: `tm2z`
 - csv: `csv`
 
-### `waft(buffer, callback)` 
-
-Returns a `string` for the following tilelive protocols:
+Protocols:
 
 - `omnivore:` [tilelive-omnivore](https://github.com/mapbox/tilelive-omnivore)
 - `mbtiles:` [node-mbtiles](https://github.com/mapbox/node-mbtiles)
@@ -67,9 +26,40 @@ Returns a `string` for the following tilelive protocols:
 - `serialtiles`: *special case*
 - `tm2z`: [tilelive-vector](https://github.com/mapbox/tilelive-vector)
 
-### `quaff(filepath, protocol, callback)`
+### Install
 
-A wrapper around `waft` and `sniff` that lets you pass in a file path (read as a buffer) and protocol to either return the protocol (waft) or the file type (sniff).
+With npm:
+```
+npm install -g mapbox-file-sniff
+```
+
+### Javascript example
+
+One method that can take either a _filepath_ or _buffer_.
+
+```javascript
+var filesniffer = require('mapbox-file-sniff');
+var buffer = fs.readFileSync('path/to/data/file.geojson');
+
+filesniffer(buffer, function(err, info) {
+		if (err) throw err;
+		console.log(info);
+		// {
+		//   protocol: 'omnivore:',
+		//   type: 'geojson'
+		// }
+});
+```
+
+### CLI example
+```sh
+$ mapbox-file-sniff path/to/data/file.geojson
+# {"protocol":"omnivore:","type":"geojson"}
+$ mapbox-file-sniff path/to/data/file.geojson --type
+# geojson
+$ mapbox-file-sniff path/to/data/file.geojson --protocol
+# omnivore:
+```
 
 ## Tests
 
