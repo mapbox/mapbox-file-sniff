@@ -5,7 +5,9 @@ var path = require('path');
 var argv = require('yargs').argv;
 var filepath = path.resolve(process.argv[2]);
 
-filesniffer(filepath, function(err, info) {
+var method = Buffer.isBuffer(filepath) ? 'fromBuffer' : 'fromFile';
+
+filesniffer[method](filepath, function(err, info) {
     if (err) {
         console.error(err.message);
         process.exit(err.code === 'EINVALID' ? 3 : 1);

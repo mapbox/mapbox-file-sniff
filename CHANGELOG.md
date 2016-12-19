@@ -3,6 +3,7 @@
 - merge all methods into a single method provided at require time - so long funny names :(
 - auto-detect filepath string vs buffer
 - returns both filetype and protocol instead of two separate methods to avoid redundant execution
+- remove support for Node 0.10.x
 
 ## 0.5.3
 

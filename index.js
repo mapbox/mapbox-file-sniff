@@ -16,27 +16,47 @@ if (process.version && semver.major(process.version) > 0) {
     }
 }
 
+module.exports.fromBuffer = fromBuffer;
+module.exports.fromFile = fromFile;
+
 /**
  * Main sniffer.
  */
-module.exports = function(file, callback) {
+function fromBuffer(buffer, callback) {
     if (!callback || typeof callback !== 'function') throw new Error('Invalid callback. Must be a function.');
 
-    if (Buffer.isBuffer(file)) {
-        detect(file, done);
-    } else {
-        getBuffer(file, function(err, buffer) {
-            if (err) return callback(err);
-            detect(buffer, done);
-        });
-    }
+    if (!Buffer.isBuffer(buffer)) return callback(invalid('Input is not a valid buffer.'));
 
-    function done(err, type) {
+    detect(buffer, function(err, type) {
         if (err) return callback(err);
         var protocol = getProtocol(type);
-        return callback(null, { type: type, protocol: protocol });
-    }
+        return callback(null, {type: type, protocol: protocol});
+    });
 };
+
+function fromFile(file, callback) {
+    if (!callback || typeof callback !== 'function') throw new Error('Invalid callback. Must be a function.');
+
+    fs.open(file, 'r', function(err, fd) {
+        if (err) return callback(err);
+        fs.fstat(fd, function(err, stats) {
+            if (err) return callback(err);
+            var size = stats.size < 512 ? stats.size : 512;
+            fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
+                if (bytes <= 2)
+                    err = err || invalid('File too small');
+                fs.close(fd, function(closeErr) {
+                    if (err || closeErr) return callback(err || closeErr);
+                    detect(buffer, function(err, type) {
+                        if (err) return callback(err);
+                        var protocol = getProtocol(type);
+                        return callback(null, {type: type, protocol: protocol});
+                    });
+                });
+            });
+        });
+    });
+}
 
 function detect(buffer, callback) {
     var header = buffer.toString().substring(0, 400);
@@ -147,25 +167,4 @@ function getProtocol(type) {
     };
 
     return mapping[type];
-}
-
-function getBuffer(filepath, callback) {
-    fs.open(filepath, 'r', function(err, fd) {
-        if (err) return callback(invalid(err));
-        fs.fstat(fd, function(err, stats) {
-            if (err) return callback(invalid(err));
-            var size = stats.size < 512 ? stats.size : 512;
-
-            fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
-                if (bytes <= 2)
-                    err = err || new Error('File too small');
-
-                fs.close(fd, function(closeErr) {
-                    if (err) return callback(invalid(err));
-                    if (closeErr) return callback(invalid(closeErr));
-                    return callback(null, buffer);
-                });
-            });
-        });
-    });
 }
