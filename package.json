@@ -1,5 +1,5 @@
 {
-  "name": "mapbox-file-sniff",
+  "name": "@mapbox/mapbox-file-sniff",
   "version": "0.5.3",
   "description": "Detects type of spatial file",
   "main": "index.js",
