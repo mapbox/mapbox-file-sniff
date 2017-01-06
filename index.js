@@ -5,17 +5,6 @@ var fs = require('fs');
 var bf = require('buffer');
 var semver = require('semver');
 
-if (process.version && semver.major(process.version) > 0) {
-    function zlib_gunzip(buffer,zlib_opts,callback) {
-        zlib.gunzip(buffer, zlib_opts, callback);
-    }
-} else {
-    // node v0.10 does not support options passed to zlib.gunzip
-    function zlib_gunzip(buffer,zlib_opts,callback) {
-        zlib.gunzip(buffer, callback);
-    }
-}
-
 module.exports.fromBuffer = fromBuffer;
 module.exports.fromFile = fromFile;
 
@@ -142,9 +131,9 @@ function detect(buffer, callback) {
     }
 
     var zlib_opts = {finishFlush: zlib.Z_SYNC_FLUSH };
-    zlib_gunzip(buffer, zlib_opts, function (err, output) {
-        if (err) return callback(invalid('Unknown filetype'));
-        returnOutput(output, callback);
+    zlib.gunzip(buffer, zlib_opts, function(err, output) {
+      if (err) return callback(invalid('Unknown filetype'));
+      returnOutput(output, callback);
     });
 }
 
