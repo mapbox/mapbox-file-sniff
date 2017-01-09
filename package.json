@@ -8,9 +8,10 @@
     "url": "https://github.com/mapbox/mapbox-file-sniff"
   },
   "dependencies": {
-    "detect-geocsv": "0.1.0",
     "buffer": "^3.2.2",
-    "semver": "~5.3.0"
+    "detect-geocsv": "0.1.0",
+    "semver": "~5.3.0",
+    "yargs": "^6.5.0"
   },
   "devDependencies": {
     "tape": "3.0.x",
@@ -21,12 +22,11 @@
     "eslint-config-unstyled": "^1.1.0"
   },
   "scripts": {
-    "test": "eslint index.js lib && tape test/*.js",
+    "test": "eslint index.js lib && tape test/index.test.js",
     "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
   },
   "bin": {
-    "mapbox-file-type": "bin/mapbox-file-type.js",
-    "mapbox-file-protocol": "bin/mapbox-file-protocol.js"
+    "mapbox-file-sniff": "bin/mapbox-file-sniff.js"
   },
   "keywords": [
     "mapbox",

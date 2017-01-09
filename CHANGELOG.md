@@ -1,3 +1,11 @@
+## 1.0.0
+
+- :tada: restructure the API into two methods: 1) `fromBuffer` and 2) `fromFile`, which makes mapbox-file-sniff more readable and simpler to use. Each method returns BOTH `protocol` and `type` information, which reduces redundancy. So long fun method names :(
+- :tada: update CLI into a single command `mapbox-file-sniff` which returns a JSON of both file types. You can pass the `--protocol` or `--type` flags to get just a protocol or filetype back.
+- :warning: remove support for Node 0.10.x
+- :package: .npmignore file added to reduce package size
+- :package: officially publishing under the `@mapbox/mapbox-file-sniff` namespace, which was introduced in version `0.5.3`.
+
 ## 0.5.3
 
 - Bug: using `process.version` resulted in browserify incompatibility, adding a quick check for `process.version` fixes the issue. [#48](https://github.com/mapbox/mapbox-file-sniff/issues/48)
@@ -51,7 +59,7 @@
 
 ## 0.3.2
 
-- improved `ustar` check 
+- improved `ustar` check
 
 ## 0.3.1
 

@@ -5,24 +5,49 @@ var fs = require('fs');
 var bf = require('buffer');
 var semver = require('semver');
 
-if (process.version && semver.major(process.version) > 0) {
-    function zlib_gunzip(buffer,zlib_opts,callback) {
-        zlib.gunzip(buffer, zlib_opts, callback);
-    }
-} else {
-    // node v0.10 does not support options passed to zlib.gunzip
-    function zlib_gunzip(buffer,zlib_opts,callback) {
-        zlib.gunzip(buffer, callback);
-    }
+module.exports.fromBuffer = fromBuffer;
+module.exports.fromFile = fromFile;
+
+/**
+ * Main sniffer.
+ */
+function fromBuffer(buffer, callback) {
+    if (!callback || typeof callback !== 'function') throw new Error('Invalid callback. Must be a function.');
+
+    if (!Buffer.isBuffer(buffer)) return callback(invalid('Input is not a valid buffer.'));
+
+    detect(buffer, function(err, type) {
+        if (err) return callback(err);
+        var protocol = getProtocol(type);
+        return callback(null, {type: type, protocol: protocol});
+    });
+};
+
+function fromFile(file, callback) {
+    if (!callback || typeof callback !== 'function') throw new Error('Invalid callback. Must be a function.');
+
+    fs.open(file, 'r', function(err, fd) {
+        if (err) return callback(err);
+        fs.fstat(fd, function(err, stats) {
+            if (err) return callback(err);
+            var size = stats.size < 512 ? stats.size : 512;
+            fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
+                if (bytes <= 2)
+                    err = err || invalid('File too small');
+                fs.close(fd, function(closeErr) {
+                    if (err || closeErr) return callback(err || closeErr);
+                    detect(buffer, function(err, type) {
+                        if (err) return callback(err);
+                        var protocol = getProtocol(type);
+                        return callback(null, {type: type, protocol: protocol});
+                    });
+                });
+            });
+        });
+    });
 }
 
-module.exports.sniff = sniff;
-module.exports.waft = waft;
-module.exports.quaff = quaff;
-
-function sniff(buffer, callback) {
-    if (Buffer.isBuffer(buffer) === false) return callback(invalid('Must pass in type Buffer object.'));
-
+function detect(buffer, callback) {
     var header = buffer.toString().substring(0, 400);
 
     // check for topojson/geojson
@@ -106,19 +131,20 @@ function sniff(buffer, callback) {
     }
 
     var zlib_opts = {finishFlush: zlib.Z_SYNC_FLUSH };
-    zlib_gunzip(buffer, zlib_opts, function (err, output) {
-        if (err) return callback(invalid('Unknown filetype'));
-        returnOutput(output,callback);
+    zlib.gunzip(buffer, zlib_opts, function(err, output) {
+      if (err) return callback(invalid('Unknown filetype'));
+      returnOutput(output, callback);
     });
 }
 
-function waft(buffer, callback) {
+function getProtocol(type) {
     var mapping = {
         csv: 'omnivore:',
         mbtiles: 'mbtiles:',
         shp: 'omnivore:',
         zip: 'omnivore:',
         tif: 'omnivore:',
+        'tif+gz': 'omnivore:',
         vrt: 'omnivore:',
         geojson: 'omnivore:',
         topojson: 'omnivore:',
@@ -129,37 +155,5 @@ function waft(buffer, callback) {
         serialtiles: 'serialtiles:'
     };
 
-    sniff(buffer, function (err, type) {
-        if (err) return callback(err);
-        callback(null, mapping[type]);
-    });
-}
-
-function quaff(input, protocol, callback) {
-    if (!callback) {
-        callback = protocol;
-        protocol = false;
-    }
-
-    var action = protocol ? waft : sniff;
-
-    if (input instanceof Buffer) return action(input, callback);
-
-    fs.open(input, 'r', function (err, fd) {
-        if (err) return callback(err);
-        fs.fstat(fd, function (err, stats) {
-            if (err) return callback(err);
-            var size = stats.size < 512 ? stats.size : 512;
-
-            fs.read(fd, new Buffer(size), 0, size, 0, function (err, bytes, buffer) {
-                if (bytes < 2)
-                    err = err || new Error('File too small');
-
-                fs.close(fd, function (closeErr) {
-                    if (err || closeErr) return callback(err || closeErr);
-                    action(buffer, callback);
-                });
-            });
-        });
-    });
+    return mapping[type];
 }
