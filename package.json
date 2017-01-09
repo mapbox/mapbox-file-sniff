@@ -26,8 +26,7 @@
     "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
   },
   "bin": {
-    "mapbox-file-type": "bin/mapbox-file-type.js",
-    "mapbox-file-protocol": "bin/mapbox-file-protocol.js"
+    "mapbox-file-sniff": "bin/mapbox-file-sniff.js"
   },
   "keywords": [
     "mapbox",

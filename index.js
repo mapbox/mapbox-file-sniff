@@ -144,7 +144,7 @@ function getProtocol(type) {
         shp: 'omnivore:',
         zip: 'omnivore:',
         tif: 'omnivore:',
-        "tif+gz": 'omnivore:',
+        'tif+gz': 'omnivore:',
         vrt: 'omnivore:',
         geojson: 'omnivore:',
         topojson: 'omnivore:',
