@@ -12,13 +12,14 @@ File types:
 - KML: `kml`
 - GeoJSON: `geojson`
 - GeoTIFF: `tif`
+- Zipped GeoTIFF: `tif`
 - Mbtiles: `mbtiles`
 - TileJSON: `tilejson`
 - Serialtiles: `serialtiles`
 - tm2z: `tm2z`
 - csv: `csv`
 
-Protocols:
+Protocols (matching tilelive protocols):
 
 - `omnivore:` [tilelive-omnivore](https://github.com/mapbox/tilelive-omnivore)
 - `mbtiles:` [node-mbtiles](https://github.com/mapbox/node-mbtiles)
@@ -26,32 +27,51 @@ Protocols:
 - `serialtiles`: *special case*
 - `tm2z`: [tilelive-vector](https://github.com/mapbox/tilelive-vector)
 
-### Install
+# Install
 
 With npm:
 ```
-npm install -g @mapbox/mapbox-file-sniff
+npm install @mapbox/mapbox-file-sniff
 ```
 
-### Javascript example
+# Usage
 
-One method that can take either a _filepath_ or _buffer_.
+```Javascript
+var sniffer = require('@mapbox/mapbox-file-sniff');
+```
+
+### Javascript
+
+**`fromBuffer(Buffer)`** - Sniff a file from a buffer.
 
 ```javascript
-var filesniffer = require('@mapbox/mapbox-file-sniff');
 var buffer = fs.readFileSync('path/to/data/file.geojson');
-
-filesniffer(buffer, function(err, info) {
-		if (err) throw err;
-		console.log(info);
-		// {
-		//   protocol: 'omnivore:',
-		//   type: 'geojson'
-		// }
+sniffer.fromBuffer(buffer, function(err, info) {
+	if (err) throw err;
+	console.log(info);
+	// {
+	//   protocol: 'omnivore:',
+	//   type: 'geojson'
+	// }
 });
 ```
 
-### CLI example
+**`fromFile(String)`** - Sniff a file from a file path.
+
+```javascript
+var file = './path/to/data/file.geojson';
+sniffer.fromFile(file, function(err, info) {
+	if (err) throw err;
+	console.log(info);
+	// {
+	//   protocol: 'omnivore:',
+	//   type: 'geojson'
+	// }
+});
+```
+
+### CLI
+
 ```sh
 $ mapbox-file-sniff path/to/data/file.geojson
 # {"protocol":"omnivore:","type":"geojson"}
@@ -61,12 +81,8 @@ $ mapbox-file-sniff path/to/data/file.geojson --protocol
 # omnivore:
 ```
 
-## Tests
+# Tests
 
 Full test suite:
 
 `npm test`
-
-Run an individual test:
-
-`tape test/name.of.test.js`
