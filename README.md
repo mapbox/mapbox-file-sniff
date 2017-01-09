@@ -30,7 +30,7 @@ Protocols:
 
 With npm:
 ```
-npm install -g mapbox-file-sniff
+npm install -g @mapbox/mapbox-file-sniff
 ```
 
 ### Javascript example
@@ -38,7 +38,7 @@ npm install -g mapbox-file-sniff
 One method that can take either a _filepath_ or _buffer_.
 
 ```javascript
-var filesniffer = require('mapbox-file-sniff');
+var filesniffer = require('@mapbox/mapbox-file-sniff');
 var buffer = fs.readFileSync('path/to/data/file.geojson');
 
 filesniffer(buffer, function(err, info) {
