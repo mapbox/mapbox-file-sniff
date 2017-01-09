@@ -1,9 +1,10 @@
 ## 1.0.0
 
-- merge all methods into a single method provided at require time - so long funny names :(
-- auto-detect filepath string vs buffer
-- returns both filetype and protocol instead of two separate methods to avoid redundant execution
-- remove support for Node 0.10.x
+- :tada: restructure the API into two methods: 1) `fromBuffer` and 2) `fromFile`, which makes mapbox-file-sniff more readable and simpler to use. Each method returns BOTH `protocol` and `type` information, which reduces redundancy. So long fun method names :(
+- :tada: update CLI into a single command `mapbox-file-sniff` which returns a JSON of both file types. You can pass the `--protocol` or `--type` flags to get just a protocol or filetype back.
+- :warning: remove support for Node 0.10.x
+- :package: .npmignore file added to reduce package size
+- :package: officially publishing under the `@mapbox/mapbox-file-sniff` namespace, which was introduced in version `0.5.3`.
 
 ## 0.5.3
 
