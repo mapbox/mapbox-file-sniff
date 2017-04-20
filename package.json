@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "buffer": "^3.2.2",
-    "detect-geocsv": "0.1.0",
+    "@mapbox/detect-geocsv": "0.1.0",
     "semver": "~5.3.0",
     "yargs": "^6.5.0"
   },
