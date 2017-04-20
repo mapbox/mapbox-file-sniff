@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Update to @mapbox namespace for detect-geocsv 
+
 ## 1.0.0
 
 - :tada: restructure the API into two methods: 1) `fromBuffer` and 2) `fromFile`, which makes mapbox-file-sniff more readable and simpler to use. Each method returns BOTH `protocol` and `type` information, which reduces redundancy. So long fun method names :(

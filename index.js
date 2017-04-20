@@ -1,5 +1,5 @@
 var zlib = require('zlib');
-var isgeocsv = require('detect-geocsv');
+var isgeocsv = require('@mapbox/detect-geocsv');
 var invalid = require('./lib/invalid');
 var fs = require('fs');
 var bf = require('buffer');
