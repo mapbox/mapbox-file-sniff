@@ -1,3 +1,7 @@
+## 0.5.4
+
+- resolves [#56](https://github.com/mapbox/mapbox-file-sniff/issues/56) by npmignore'ing some large test fixtures - marked as a previous release on NPM
+
 ## 0.5.3
 
 - Bug: using `process.version` resulted in browserify incompatibility, adding a quick check for `process.version` fixes the issue. [#48](https://github.com/mapbox/mapbox-file-sniff/issues/48)
@@ -51,7 +55,7 @@
 
 ## 0.3.2
 
-- improved `ustar` check 
+- improved `ustar` check
 
 ## 0.3.1
 
