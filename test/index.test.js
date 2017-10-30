@@ -52,6 +52,16 @@ tape('error: small file', function(assert) {
         assert.end();
     });
 });
+tape('error: zero byte file', function(assert) {
+    var filepath = path.resolve('./test/data/empty-shapefile/empty.shp');
+    assert.notOk(Buffer.isBuffer(filepath));
+    sniffer.fromFile(filepath, function(err, result) {
+        assert.ok(err);
+        assert.equal(err.message, 'File is zero bytes.', 'expected error message');
+        assert.equal(err.code, 'EINVALID', 'expected error code');
+        assert.end();
+    });
+});
 
 tape('[KML] success: file path', function(assert) {
     var filepath = testData + '/data/kml/1week_earthquake.kml';
