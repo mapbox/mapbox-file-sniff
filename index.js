@@ -96,8 +96,7 @@ function detect(buffer, callback) {
       .then(type => {
         return callback(null, type);
       })
-      .catch(() => {
-
+      .catch((err) => {
         var header = buffer.toString().substring(0, 400);
 
         // check for topojson/geojson
@@ -162,7 +161,10 @@ function detect(buffer, callback) {
         if (isgeocsv(buffer)) {
             return callback(null, 'csv');
         }
-      })
+
+        // If not one of the test are valie then return "Unknown"
+        return callback(invalid('Unknown filetype'));
+      });
 }
 
 
