@@ -76,9 +76,6 @@ function returnOutput(output) {
  */
 
 function gunzipPromise (buffer) {
-
-    if (buffer.Body) buffer = buffer.Body;
-
     return new Promise((resolve, reject) => {
         zlib.gunzip(buffer, {finishFlush: zlib.Z_SYNC_FLUSH }, (err, data) => {
             if (err) return reject(err);
