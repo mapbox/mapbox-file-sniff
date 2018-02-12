@@ -167,8 +167,6 @@ function detect(buffer, callback) {
       });
 }
 
-
-
 function getProtocol(type) {
     var mapping = {
         csv: 'omnivore:',

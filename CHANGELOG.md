@@ -1,6 +1,10 @@
+## 1.0.3
+
+- Bugfix: Properly detect `tiff+gz` files [#62](https://github.com/mapbox/mapbox-file-sniff/pull/62)
+
 ## 1.0.2
 
-Add check for zero byte files [#59](https://github.com/mapbox/mapbox-file-sniff/issues/59)
+- Add check for zero byte files [#59](https://github.com/mapbox/mapbox-file-sniff/issues/59)
 
 ## 1.0.1
 
