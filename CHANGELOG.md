@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Bugfix: Remove unneeded "deflate" magic number [#63](https://github.com/mapbox/mapbox-file-sniff/pull/63)
+
 ## 1.0.3
 
 - Bugfix: Properly detect `tiff+gz` files [#62](https://github.com/mapbox/mapbox-file-sniff/pull/62)
