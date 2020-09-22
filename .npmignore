@@ -1,3 +1,5 @@
 test
 .travis.yml
 mapbox-file-sniff.jpg
+.nyc_output/
+coverage/
