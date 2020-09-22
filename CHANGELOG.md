@@ -1,3 +1,11 @@
+## 1.0.5
+
+- Update eslint + yargs dependencies for security audit
+- Use `Buffer.alloc()` instead of `Buffer()`
+- Test on node v10 + v12
+- Replace coveralls with codecov + upload coverage from travis file
+- Update dev dependencies
+
 ## 1.0.4
 
 - Bugfix: Remove unneeded "deflate" magic number [#63](https://github.com/mapbox/mapbox-file-sniff/pull/63)

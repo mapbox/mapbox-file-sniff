@@ -32,7 +32,7 @@ function fromFile(file, callback) {
             if (err) return callback(err);
             if (stats.size === 0) return callback(invalid('File is zero bytes.'));
             var size = stats.size < 512 ? stats.size : 512;
-            fs.read(fd, new Buffer(size), 0, size, 0, function(err, bytes, buffer) {
+            fs.read(fd, new Buffer.alloc(size), 0, size, 0, function(err, bytes, buffer) {
                 if (bytes <= 2)
                     err = err || invalid('File too small');
                 fs.close(fd, function(closeErr) {
