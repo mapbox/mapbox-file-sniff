@@ -1,6 +1,6 @@
 ![](mapbox-file-sniff.jpg)
 
-## Mapbox File Sniff [![Build Status](https://travis-ci.org/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-file-sniff)
+## Mapbox File Sniff [![Build Status](https://travis-ci.com/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.com/mapbox/mapbox-file-sniff)
 
 Node module that returns a spatial filetype and protocol.
 
