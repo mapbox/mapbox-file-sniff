@@ -1,3 +1,11 @@
+## 1.0.6
+
+- Dependency update to resolve security issues [#65](https://github.com/mapbox/mapbox-file-sniff/pull/65)
+  - Update dev dependencies eslint, tape
+  - Update dependency yargs to latest 16.x version
+  - Remove nyc and coverage utilities
+  - Remove semver module
+
 ## 1.0.5
 
 - Update eslint + yargs dependencies for security audit
