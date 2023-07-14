@@ -3,7 +3,6 @@ var isgeocsv = require('@mapbox/detect-geocsv');
 var invalid = require('./lib/invalid');
 var fs = require('fs');
 var bf = require('buffer');
-var semver = require('semver');
 
 module.exports.fromBuffer = fromBuffer;
 module.exports.fromFile = fromFile;
