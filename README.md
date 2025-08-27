@@ -1,6 +1,8 @@
+⚠️ This repository is no longer actively maintained by Mapbox.
+
 ![](mapbox-file-sniff.jpg)
 
-## Mapbox File Sniff [![Build Status](https://travis-ci.com/mapbox/mapbox-file-sniff.svg?branch=master)](https://travis-ci.com/mapbox/mapbox-file-sniff)
+## Mapbox File Sniff 
 
 Node module that returns a spatial filetype and protocol.
 
